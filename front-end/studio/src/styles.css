@@ -1,3 +1,64 @@
+.ace_gutter-cell {
+    cursor:pointer;
+}
+
+.ace_gutter-cell::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    transform: translateY(1px) scale(0.9, 0.9);
+    z-index: -1;
+    width: 15px;
+    height: 15px;
+    background-position: 2px -165px;
+    background-image: url(/assets/comments.png);
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.ace_gutter-cell:hover {
+    background-position: 2px -0px;
+}
+
+.ace-comment-editor-1::before {
+  background-position: 2px -15px;
+}
+
+.ace-comment-editor-2::before {
+  background-position: 2px -30px;
+}
+
+.ace-comment-editor-3::before {
+  background-position: 2px -45px;
+}
+
+.ace-comment-editor-4::before {
+  background-position: 2px -60px;
+}
+
+.ace-comment-editor-5::before {
+  background-position: 2px -75px;
+}
+
+.ace-comment-editor-6::before {
+  background-position: 2px -90px;
+}
+
+.ace-comment-editor-7::before {
+  background-position: 2px -105px;
+}
+
+.ace-comment-editor-8::before {
+  background-position: 2px -120px;
+}
+
+.ace-comment-editor-more::before {
+  background-position: 2px -150px;
+}
+
+.ace-comment-editor-no::before {
+  background-position: 2px -0px;
+}
 
 body {
   font-size: 13px;

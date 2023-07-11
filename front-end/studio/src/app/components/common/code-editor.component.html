@@ -3,4 +3,7 @@
             [mode]="aceMode()"
             [(text)]="text"
             [wordWrap]="wordWrap"
+            [commentsResume]="_commentsResume"
+            [goToLine]="_goToLine"
+            (onNewComment)="onNewComment.emit($event)"
             [ngStyle]="editorStyle"></ace-editor>

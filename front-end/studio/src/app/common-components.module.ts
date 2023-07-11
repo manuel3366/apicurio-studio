@@ -24,6 +24,7 @@ import {CommonModule} from "@angular/common";
 import {DropDownComponent} from './components/common/drop-down.component';
 import {FormErrorMessageComponent} from "./components/common/form-error-message.component";
 import {CodeEditorComponent} from "./components/common/code-editor.component";
+import {CommentEditorComponent} from "./components/common/comment-editor.component";
 import {AceEditorComponent} from "./components/common/ace-editor.component";
 import {DivAutoHeight, TextAreaAutosize, TextBoxAutosize} from "./directives/autosize.directive";
 import {MarkdownComponent} from "./components/common/markdown.component";
@@ -35,14 +36,14 @@ import {MarkdownEditorComponent} from './components/common/markdown-editor.compo
         CommonModule, FormsModule, ModalModule, BsDropdownModule
     ],
     declarations: [
-        DropDownComponent, FormErrorMessageComponent, CodeEditorComponent, AceEditorComponent,
+        DropDownComponent, FormErrorMessageComponent, CodeEditorComponent, CommentEditorComponent, AceEditorComponent,
         TextAreaAutosize, DivAutoHeight, TextBoxAutosize, MarkdownComponent, MarkdownSummaryComponent,
         MarkdownEditorComponent
     ],
     providers: [
     ],
     exports: [
-        DropDownComponent, FormErrorMessageComponent, CodeEditorComponent, MarkdownEditorComponent,
+        DropDownComponent, FormErrorMessageComponent, CodeEditorComponent, CommentEditorComponent, MarkdownEditorComponent,
         TextAreaAutosize, DivAutoHeight, TextBoxAutosize, MarkdownComponent, MarkdownSummaryComponent
     ]
 })
