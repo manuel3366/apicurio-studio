@@ -60,6 +60,7 @@ import {RestResourceService} from "../_services/rest-resource.service";
 import {RenamePathDialogComponent} from "./dialogs/rename-path.component";
 import {AbstractBaseComponent} from "./common/base-component";
 import {DocumentService} from "../_services/document.service";
+import {CommentService} from "../../../../../services/comment.service";
 import {RenameEntityDialogComponent, RenameEntityEvent} from "./dialogs/rename-entity.component";
 import {KeypressUtils} from "../_util/keypress.util";
 import {ObjectUtils} from "apicurio-ts-core";
@@ -121,7 +122,7 @@ export class EditorMasterComponent extends AbstractBaseComponent {
      * @param restResourceService
      * @param features
      */
-    constructor(changeDetectorRef: ChangeDetectorRef, documentService: DocumentService,
+    constructor(changeDetectorRef: ChangeDetectorRef, documentService: DocumentService, commentService: CommentService,
                 selectionService: SelectionService, private commandService: CommandService,
                 private editors: EditorsService, private restResourceService: RestResourceService,
                 private features: FeaturesService) {

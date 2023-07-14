@@ -22,6 +22,7 @@ import {SourceFormComponent} from "./source-form.base";
 import {SelectionService} from "../../_services/selection.service";
 import {CommandService} from "../../_services/command.service";
 import {DocumentService} from "../../_services/document.service";
+import {CommentService} from "../../../../../../services/comment.service";
 import {ICommand} from "@apicurio/data-models";
 import {EditorsService} from "../../_services/editors.service";
 
@@ -35,6 +36,7 @@ import {EditorsService} from "../../_services/editors.service";
 export class MainFormComponent extends SourceFormComponent<OasDocument> {
 
     _document: OasDocument;
+    _apiId: number;
     _showComments: boolean = true;
     _comments: any = [];
     _visibleComment: any = [];
@@ -46,6 +48,12 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
         this.sourceNode = doc;
         this.revertSource();
     }
+
+    @Input()
+    set apiId(apiId: number) {
+        this._apiId = apiId;
+    }
+
     get document(): OasDocument {
         return this._document;
     }
@@ -56,13 +64,23 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
     public constructor(protected changeDetectorRef: ChangeDetectorRef,
                        protected selectionService: SelectionService,
                        protected commandService: CommandService,
+                       protected commentService: CommentService,
                        protected documentService: DocumentService,
                        private editors: EditorsService) {
         super(changeDetectorRef, selectionService, commandService, documentService);
     }
 
     ngOnInit() {
-        this.calculateCommentResume();
+        this.commentService.getCommentsByApiId(this._apiId).then( comments => {
+            console.log("[CommentComponent] Comment loaded.", comments);
+            this._comments = [...comments];
+            this.calculateCommentResume();
+            //this.loaded("comments");
+        }).catch( error => {
+            console.error("[CommentComponent] Error fetching built in comments.");
+            //this.error(error);
+        });
+
         console.log("this._comments.length:" + this._comments.length);
         console.log("this._commentsResume.get(1):" + this._commentsResume.get(1));
     }
@@ -111,7 +129,7 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
             this.editorModel.id = null;
             this.editorModel.row = null;
             this.editorModel.text = null;
-            this.editorModel.apiId = null;
+            this.editorModel.apiId = this._apiId;
         }
         this.editorOpen = true;
         this.collapseAllExcept(null);
@@ -121,6 +139,7 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
         console.log("row value:" + row);
         let comment = new Comment();
         comment.row = row;
+        comment.apiId = this._apiId;
         this.editComment(comment);
     }
 
@@ -132,47 +151,43 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
         let comment: Comment = this.editorModel;
 
         // Create a new profile
+
         if (comment.id === null) {
-            this._comments.push(comment);
-            this._visibleComment.push(false);
-            this.calculateCommentResume()
-            this.editorOpen = false;
-            /*let info: CreateValidationProfile = {
-                name: this.editorModel.name,
-                description: this.editorModel.description,
-                severities: this.editorModel.severities
-            };
-            this.validationService.createValidationProfile(info).then( profile => {
-                this.profiles.push(profile);
+            this.commentService.createValidationProfile(comment).then( comment => {
+
+                this._comments.push(comment);
+                this._visibleComment.push(false);
+                this.calculateCommentResume();
+                console.log("Closing editor");
                 this.editorOpen = false;
+
             }).catch( error => {
-                this.error(error);
-            });*/
+                console.error("    Error: %o", error);
+            });
         }
 
         // Update an existing profile
-        /*if (profile.id !== null) {
-            let update: UpdateValidationProfile = {
-                name: this.editorModel.name,
-                description: this.editorModel.description,
-                severities: this.editorModel.severities
-            };
-            this.validationService.updateValidationProfile(this.editorModel.id, update).then( newProfile => {
+        if (comment.id !== null) {
+
+            this.commentService.updateComment(this.editorModel.id, comment).then( newComment => {
                 let idx: number = -1;
-                this.profiles.forEach( (p, pidx) => {
-                    if (p.id === profile.id) {
+                this._comments.forEach( (p, pidx) => {
+                    if (p.id === newComment.id) {
                         idx = pidx;
                     }
                 });
                 if (idx >= 0) {
-                    this.profiles.splice(idx, 1, newProfile);
+                    this._comments.splice(idx, 1, newComment);
+                    this._visibleComment.splice(idx, 1, false);
                 }
 
                 this.editorOpen = false;
             }).catch( error => {
-                this.error(error);
+                console.error("    Error: %o", error);
+                //this.error(error);
             });
-        }*/
+        }
+        //this.editorOpen = false;
 
     }
 

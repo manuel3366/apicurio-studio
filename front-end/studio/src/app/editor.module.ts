@@ -84,6 +84,7 @@ import {PathParamsSectionComponent} from "./pages/apis/{apiId}/editor/_component
 import {QueryParamsSectionComponent} from "./pages/apis/{apiId}/editor/_components/forms/shared/query-params-section.component";
 import {HeaderParamsSectionComponent} from "./pages/apis/{apiId}/editor/_components/forms/shared/header-params-section.component";
 import {DocumentService} from "./pages/apis/{apiId}/editor/_services/document.service";
+import {CommentService} from "./services/comment.service";
 import {PfInlineTextEditorComponent} from "./pages/apis/{apiId}/editor/_components/common/pf-inline-text-editor.component";
 import {TagRowComponent} from "./pages/apis/{apiId}/editor/_components/forms/main/tag-row.component";
 import {ServerEditorComponent} from "./pages/apis/{apiId}/editor/_components/editors/server-editor.component";
@@ -204,7 +205,7 @@ import {AddExtensionDialogComponent} from "./pages/apis/{apiId}/editor/_componen
         ExtensionRowComponent, JsonSummaryComponent, InlineJsonEditorComponent, AddExtensionDialogComponent
     ],
     providers: [
-        ProblemsService, SelectionService, LicenseService, CommandService, DocumentService, EditorsService,
+        ProblemsService, SelectionService, LicenseService, CommandService, DocumentService, CommentService, EditorsService,
         RestResourceService, FeaturesService, CollaboratorService, ApiCatalogService
     ],
     exports: [
