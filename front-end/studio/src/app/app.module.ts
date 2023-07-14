@@ -71,7 +71,9 @@ import {InvitationDialogComponent} from "./pages/apis/{apiId}/collaboration/_com
 import {ConfigureValidationComponent} from './pages/apis/{apiId}/_components/configure-validation.dialog';
 import {ValidationService} from "./services/validation.service";
 import {ValidationPageComponent} from "./pages/settings/validation/validation.page";
+import {CategoriesPageComponent} from "./pages/settings/categories/categories.page";
 import {ProfileEditorComponent} from "./pages/settings/validation/_components/profile-editor.component";
+import {ProfileCategoriesEditorComponent} from "./pages/settings/categories/_components/profile-categories-editor.component";
 import {TagListComponent} from "./components/common/tag-list.component";
 import {SharingDialogComponent} from "./pages/apis/{apiId}/_components/sharing.dialog";
 import {ApiTextEditorPageComponent} from "./pages/apis/{apiId}/editor/api-teditor.page";
@@ -90,15 +92,15 @@ import {TemplateEditorComponent} from "./pages/templates/_components/template-ed
     ],
     declarations: [
         AppComponent, DashboardPageComponent, BreadcrumbsComponent, BreadcrumbComponent, PageErrorComponent,
-        VerticalNavComponent, ConfirmDeleteDialogComponent, InvitationDialogComponent, ValidationPageComponent,
-        NotFoundPageComponent, SettingsNavComponent, CreatedLinkedAccountPageComponent, LinkedAccountsPageComponent,
+        VerticalNavComponent, ConfirmDeleteDialogComponent, InvitationDialogComponent, CategoriesPageComponent,
+        ValidationPageComponent,NotFoundPageComponent, SettingsNavComponent, CreatedLinkedAccountPageComponent, LinkedAccountsPageComponent,
         ProfilePageComponent, SettingsPageComponent, ApisPageComponent, CreateApiPageComponent, ImportApiPageComponent,
         ImportApiFormComponent, CreateApiFormComponent, ApisListComponent, ApisCardsComponent, CopyPageComponent,
         ApiCollaborationPageComponent, ApiAcceptPageComponent, ApiDetailPageComponent, ApiEditorPageComponent,
         PublishPageComponent, GitHubResourceComponent, GitLabResourceComponent, BitbucketResourceComponent,
         GenerateProjectWizardComponent, ActivityItemComponent, EditorDisconnectedDialogComponent, MockPageComponent,
-        DefaultPageComponent, ConfigureValidationComponent, ProfileEditorComponent, TagListComponent,
-        SharingDialogComponent, ApiTextEditorPageComponent, DownloadDialogComponent, ImportComponentsWizard,
+        DefaultPageComponent, ConfigureValidationComponent, ProfileEditorComponent, ProfileCategoriesEditorComponent,
+        TagListComponent,  SharingDialogComponent, ApiTextEditorPageComponent, DownloadDialogComponent, ImportComponentsWizard,
         DataTableComponent, LoadingComponent, TemplatePublicationPageComponent, TemplatesPageComponent, TemplateEditorComponent
     ],
     providers: [
