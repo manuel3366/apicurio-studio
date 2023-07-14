@@ -2,6 +2,10 @@
     cursor:pointer;
 }
 
+.view-line-link {
+    cursor:pointer;
+}
+
 .ace_gutter-cell::before {
     content: '';
     position: absolute;
@@ -18,6 +22,7 @@
 
 .ace_gutter-cell:hover {
     background-position: 2px -0px;
+    background-image: url(/assets/comments.png);
 }
 
 .ace-comment-editor-1::before {

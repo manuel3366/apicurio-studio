@@ -36,8 +36,8 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
 
     _document: OasDocument;
     _showComments: boolean = true;
-    _comments: any = [new Comment(), new Comment(), new Comment()];
-    _visibleComment: any = [false, false, false];
+    _comments: any = [];
+    _visibleComment: any = [];
     _commentsResume: any = new Map();
     _goToLine: number = 0;
     @Input()
@@ -109,9 +109,9 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
             this.editorModel.apiId = comment.apiId;
         } else {
             this.editorModel.id = null;
-            this.editorModel.row = 3;
-            this.editorModel.text = "";
-            this.editorModel.apiId = 1;
+            this.editorModel.row = null;
+            this.editorModel.text = null;
+            this.editorModel.apiId = null;
         }
         this.editorOpen = true;
         this.collapseAllExcept(null);

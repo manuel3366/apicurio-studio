@@ -23,9 +23,9 @@ export class Comment {
 
     constructor() {
         this.id = null;
-        this.text = "Comment";
-        this.row = 1;
-        this.apiId = 1;
+        this.text = null;
+        this.row = null;
+        this.apiId = null;
     }
 }
 

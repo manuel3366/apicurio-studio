@@ -10,10 +10,11 @@
   right: 0;
   top: 0;
   margin-right: 50px;
-  font-size: 32px;
+  font-size: 20px;
   cursor: pointer;
   color: #666;
   z-index: 5;
+  width: 0px;
 }
 .comment-editor .close-button:hover {
   color: black;
