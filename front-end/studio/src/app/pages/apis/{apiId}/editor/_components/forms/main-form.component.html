@@ -36,13 +36,24 @@
         <div id="comments-bar">
             <h3 class="comment-section-title">Open Comments</h3>
         </div>
-        <div *ngFor="let comment of _comments; let i = index">
+        <div *ngFor="let comment of _comments | paginate: {
+              itemsPerPage: pageSize,
+              currentPage: page,
+              totalItems: count
+            }; let i = index">
             <img (click)="goToLineInEditor(comment.row)" src="/assets/jump-icon.svg" class="view-line-link" aria-describedby="false" title="Go to line {{comment.row}}">
             <a (click)="toggleCollapse(i)">Comment on line {{comment.row}}</a>
             <div *ngIf="_visibleComment[i]">
                 <comment-editor (onSave)="saveComment()" (onClose)="toggleCollapse(i)" [closable]="false" [comment]="comment"></comment-editor>
             </div>
         </div>
+        <pagination-controls
+                previousLabel="Prev"
+                nextLabel="Next"
+                maxSize="5"
+                [responsive]="true"
+                (pageChange)="handlePageChange($event)"
+        ></pagination-controls>
     </div>
 </div>
 

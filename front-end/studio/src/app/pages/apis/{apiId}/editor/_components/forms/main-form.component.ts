@@ -35,6 +35,11 @@ import {EditorsService} from "../../_services/editors.service";
 })
 export class MainFormComponent extends SourceFormComponent<OasDocument> {
 
+    page = 1;
+    count = 0;
+    pageSize = 5;
+    pageSizes = [5];
+
     _document: OasDocument;
     _apiId: number;
     _showComments: boolean = true;
@@ -68,14 +73,18 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
                        protected documentService: DocumentService,
                        private editors: EditorsService) {
         super(changeDetectorRef, selectionService, commandService, documentService);
+
     }
+
+    handlePageChange(event) {
+        this.page = event;
+      }
 
     ngOnInit() {
         this.commentService.getCommentsByApiId(this._apiId).then( comments => {
             console.log("[CommentComponent] Comment loaded.", comments);
             this._comments = [...comments];
             this.calculateCommentResume();
-            //this.loaded("comments");
         }).catch( error => {
             console.error("[CommentComponent] Error fetching built in comments.");
             //this.error(error);
@@ -200,6 +209,7 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
             }
             this._commentsResume.set(this._comments[i].row, count);
         }
+        //this.pageNumber = Math.ceil(this._comments.length/this.itemsPerPage);
     }
 
     toggleCollapse(id: number): void {

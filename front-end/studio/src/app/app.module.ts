@@ -19,6 +19,7 @@ import {ClipboardModule} from "ngx-clipboard";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import { NgxPaginationModule } from 'ngx-pagination';
 import {AppComponent} from './app.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
@@ -85,7 +86,7 @@ import {TemplateEditorComponent} from "./pages/templates/_components/template-ed
 
 @NgModule({
     imports: [
-        BrowserAnimationsModule, BrowserModule, FormsModule, HttpClientModule, AppRoutingModule, ModalModule.forRoot(), BsDropdownModule.forRoot(),
+        NgxPaginationModule, BrowserAnimationsModule, BrowserModule, FormsModule, HttpClientModule, AppRoutingModule, ModalModule.forRoot(), BsDropdownModule.forRoot(),
         ApicurioCommonComponentsModule, ApicurioEditorModule, ClipboardModule
     ],
     declarations: [
