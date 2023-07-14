@@ -38,6 +38,7 @@ import io.apicurio.hub.core.beans.ApiPublication;
 import io.apicurio.hub.core.beans.ApiTemplatePublication;
 import io.apicurio.hub.core.beans.CodegenProject;
 import io.apicurio.hub.core.beans.Contributor;
+import io.apicurio.hub.core.beans.Comment;
 import io.apicurio.hub.core.beans.Invitation;
 import io.apicurio.hub.core.beans.LinkedAccount;
 import io.apicurio.hub.core.beans.LinkedAccountType;
@@ -854,5 +855,43 @@ public class MockStorage implements IStorage {
      */
     @Override
     public void deleteApiTemplate(String templateId) throws StorageException, NotFoundException {
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#listComments(java.lang.String)
+     */
+    @Override
+    public Collection<Comment> listComments(String userId) throws StorageException {
+        return null;
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#listCommentsByApiId(java.lang.String, long)
+     */
+    @Override
+    public Collection<Comment> listCommentsByApiId(String userId, long apiId) throws StorageException {
+        return null;
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#createComment(java.lang.String, io.apicurio.hub.core.beans.Comment)
+     */
+    @Override
+    public long createComment(String userId, Comment comment) throws StorageException {
+        return 0;
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#updateComment(java.lang.String, io.apicurio.hub.core.beans.Comment)
+     */
+    @Override
+    public void updateComment(String userId, Comment comment) throws StorageException {
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#deleteComment(java.lang.String, long)
+     */
+    @Override
+    public void deleteComment(String userId, long commentId) throws StorageException {
     }
 }

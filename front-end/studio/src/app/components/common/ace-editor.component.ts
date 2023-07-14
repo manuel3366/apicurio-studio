@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {Component, EventEmitter, Output, ElementRef, Input, forwardRef, OnInit, NgZone, OnDestroy} from "@angular/core";
+import {Component, EventEmitter, Output, ElementRef, Input, forwardRef, OnInit, NgZone, OnDestroy, OnChanges, SimpleChanges} from "@angular/core";
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from "@angular/forms";
 import "brace";
 import "brace/theme/eclipse";
@@ -40,20 +40,24 @@ declare var ace: any;
         multi: true
     }]
 })
-export class AceEditorComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class AceEditorComponent implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
+    @Output() onNewComment: EventEmitter<any> = new EventEmitter();
     @Output() textChanged = new EventEmitter();
     @Output() textChange = new EventEmitter();
     @Input() style: any = {};
     _options: any = {};
     _readOnly: boolean = false;
     _theme: string = "monokai";
-    _mode: any = "html";
+    _mode: any = "html";z
+    _commentsResume: any = new Map();
+    _goToLine: number = 0;
     _autoUpdateContent: boolean = true;
     _editor: any;
     _durationBeforeCallback: number = 0;
     _wordWrap: boolean = false;
     _text: string = "";
     oldText: any;
+    _addCommentFunction: any;
     timeoutSaving: any;
 
     /**
@@ -67,6 +71,17 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit, OnDestr
             this._editor = ace["edit"](el);
             this._editor.$blockScrolling = Infinity;
         });
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        for (let propName in changes) {
+            console.log("propName:" + propName);
+            if (propName == "commentsResume") {
+                this.addGutterDecorations(this._commentsResume);
+            } else if (propName == "goToLine") {
+                this.setGoToLine(this._goToLine);
+            }
+         }
     }
 
     ngOnInit() {
@@ -83,11 +98,33 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit, OnDestr
         this.setTheme(this._theme);
         this.setMode(this._mode);
         this.setReadOnly(this._readOnly);
+        this.addGutterDecorations(this._commentsResume);
+        this.setGoToLine(this._goToLine);
     }
 
     initEvents() {
         this._editor.on('change', () => this.updateText());
         this._editor.on('paste', () => this.updateText());
+
+        this._editor.on("guttermousedown", (e: any) => {
+            var target = e.domEvent.target;
+
+            /*if (target.className.indexOf("ace_gutter-cell") == -1){
+                return;
+            }
+
+            if (!e.editor.isFocused()){
+                return;
+            }
+
+            if (e.clientX > 25 + target.getBoundingClientRect().left){
+                return;
+            }*/
+
+            var row = e.getDocumentPosition().row;
+            this.onNewComment.emit(row + 1);
+            e.stop();
+        });
     }
 
     destroy() {
@@ -131,6 +168,18 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit, OnDestr
         this.setOptions(options);
     }
 
+    @Input() set commentsResume(commentsResume: any) {
+        this._commentsResume = commentsResume;
+    }
+
+    @Input() set goToLine(goToLine: number) {
+         this._goToLine = goToLine;
+    }
+
+    setGoToLine(goToLine: number){
+        this._editor.gotoLine(goToLine, 0, true)
+    }
+
     setOptions(options: any) {
         this._options = options;
         this._editor.setOptions(options || {});
@@ -143,6 +192,17 @@ export class AceEditorComponent implements ControlValueAccessor, OnInit, OnDestr
     setReadOnly(readOnly: any) {
         this._readOnly = readOnly;
         this._editor.setReadOnly(readOnly);
+    }
+
+    addGutterDecorations(commentsResume: any) {
+        for (let [key, value] of commentsResume) {
+            if (value <= 8) {
+                this._editor.session.addGutterDecoration(key-1, "ace-comment-editor-" + value);
+            } else {
+                this._editor.session.addGutterDecoration(key-1, "ace-comment-editor-more");
+            }
+        }
+
     }
 
     @Input() set theme(theme: any) {

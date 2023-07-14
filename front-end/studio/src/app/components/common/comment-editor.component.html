@@ -1,0 +1,35 @@
+<div class="comment-editor container-fluid">
+    <a *ngIf="closable" class="close-button" (click)="onClose.emit()"><span class="pficon pficon-close"></span></a>
+    <form id="comment-editor-form" class="entity-editor-form" #entityEditorForm="ngForm">
+        <div class="row-fluid header">
+            <div class="col-md-12">
+                <h3 class="title">
+                    <span>Add Comment for line {{comment.row}}</span></h3>
+            </div>
+        </div>
+
+        <!-- Comment -->
+        <div class="row-fluid body-section comment-section">
+            <div class="col-sm-12 col-md-8">
+                <div class="form-group">
+                    <label class="control-label required" for="text">Comment</label>
+                    <div>
+                        <textarea name="text" id="text" class="form-control" required #textInput="ngModel" [(ngModel)]="comment.text" placeholder="Enter a comment." ></textarea>
+                        <form-error-message [inputModel]="textInput" type="required">Comment is required.</form-error-message>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider between form and rules -->
+        <div class="row-fluid required-fields-notification divider-section">
+            <div class="col-md-12">
+                <div class="actions">
+                    <button class="btn btn-primary" (click)="onSave.emit()" [disabled]='comment.text == null'>Save</button>
+                    <button class="btn btn-default" (click)="onClose.emit()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

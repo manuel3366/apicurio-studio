@@ -15,15 +15,37 @@
         <span *ngIf="isSourceFormatYaml()">As JSON</span>
         <span *ngIf="isSourceFormatJson()">As YAML</span>
     </button>
+    <button class="btn btn-primary btn-xs" (click)="showComments()"><span class="pficon fa-comments"></span> <span>Comments</span></button>
 </div>
-<div class="detail-content" style="position: relative" *ngIf="isSourceMode()">
-    <code-editor #sourceEditor
-                 [(text)]="source"
-                 [theme]="sourceEditorTheme()"
-                 [mode]="sourceEditorMode()"
-                 [debounceTime]="250"
-                 [editorStyle]="{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, 'margin-top': '1px' }"></code-editor>
+<div style='content: ""; display: table; clear: both; height: 100%' *ngIf="isSourceMode()">
+    <div class="detail-content" style="position: relative; float: left; width: 70%; height: 100%;">
+
+        <code-editor #sourceEditor
+                     [(text)]="source"
+                     [theme]="sourceEditorTheme()"
+                     [mode]="sourceEditorMode()"
+                     [debounceTime]="250"
+                     [commentsResume]="_commentsResume"
+                     [goToLine]="_goToLine"
+                     (onNewComment)="onNewCommentFunction($event)"
+                     [editorStyle]="{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, 'margin-top': '1px' }"></code-editor>
+
+    </div>
+    <div style="float: left;width: 30%;" *ngIf="isShowComments()">
+        <comment-editor *ngIf="editorOpen" (onSave)="saveComment()" (onClose)="editorOpen=false" [comment]="editorModel"></comment-editor>
+        <div id="comments-bar">
+            <h3 class="comment-section-title">Open Comments</h3>
+        </div>
+        <div *ngFor="let comment of _comments; let i = index">
+            <img (click)="goToLineInEditor(comment.row)" src="/assets/jump-icon.svg" class="view-line-link" aria-describedby="false" title="Go to line {{comment.row}}">
+            <a (click)="toggleCollapse(i)">Comment on line {{comment.row}}</a>
+            <div *ngIf="_visibleComment[i]">
+                <comment-editor (onSave)="saveComment()" (onClose)="toggleCollapse(i)" [closable]="false" [comment]="comment"></comment-editor>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <!-- Design Mode -->
 <div class="detail-content" *ngIf="isDesignMode()">

@@ -43,14 +43,27 @@ export class CodeEditorComponent {
         this.textChange.emit(value);
     });
 
+    @Output() onNewComment: EventEmitter<any> = new EventEmitter();
+
     @Input() theme: CodeEditorTheme = CodeEditorTheme.Light;
     @Input() mode: CodeEditorMode = CodeEditorMode.Text;
     @Input() editorStyle: any;
     @Input() wordWrap: boolean = false;
 
+    _commentsResume: any = new Map();
+    _goToLine: number = 0;
+
     @Input()
     get text() {
         return this._textValueDebouncer.getValue();
+    }
+
+    @Input() set commentsResume(commentsResume: any) {
+        this._commentsResume = commentsResume;
+    }
+
+    @Input() set goToLine(goToLine: number) {
+        this._goToLine = goToLine;
     }
 
     @Output() public textChange = new EventEmitter<string>();
@@ -104,4 +117,5 @@ export class CodeEditorComponent {
     public setText(text: string): void {
         this.editor.setText(text);
     }
+
 }

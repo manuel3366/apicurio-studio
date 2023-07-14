@@ -58,6 +58,7 @@ import {ApiEditorUser} from "../../../../models/editor-user.model";
 import {SelectionService} from "./_services/selection.service";
 import {CommandService} from "./_services/command.service";
 import {DocumentService} from "./_services/document.service";
+import {CommentService} from "../../../../services/comment.service";
 import {ServerEditorComponent} from "./_components/editors/server-editor.component";
 import {EditorsService, IEditorsProvider} from "./_services/editors.service";
 import {SecuritySchemeEditorComponent} from "./_components/editors/security-scheme-editor.component";
@@ -143,7 +144,7 @@ export class ApiEditorComponent extends AbstractApiEditorComponent implements On
      * @param catalog
      */
     constructor(private selectionService: SelectionService, private commandService: CommandService,
-                private documentService: DocumentService, private editorsService: EditorsService,
+                private documentService: DocumentService, private commentService: CommentService, private editorsService: EditorsService,
                 private featuresService: FeaturesService, private collaboratorService: CollaboratorService,
                 private catalog: ApiCatalogService) {
         super();
@@ -690,6 +691,13 @@ export class ApiEditorComponent extends AbstractApiEditorComponent implements On
                 // FIXME what to do if we get an error???
             });
         }
+    }
+
+    /**
+    * Gets the OpenAPI spec as a document.
+    */
+    public apiId(): number {
+        return Number(this.api.id);
     }
 }
 

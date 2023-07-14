@@ -9,9 +9,9 @@
                (onConfigureValidation)="onConfigureValidation.emit()"></title-bar>
     <master [document]="document()" (onImportComponent)="importComponent($event)" #master></master>
     <div class="editor-detail" [ngSwitch]="formType">
-        <main-form [document]="document()" class="editor-detail-form"
+        <main-form [document]="document()" [apiId]="apiId()" class="editor-detail-form"
                       *ngSwitchCase="'main_20'"></main-form>
-        <main-form [document]="document()" class="editor-detail-form"
+        <main-form [document]="document()" [apiId]="apiId()" class="editor-detail-form"
                       *ngSwitchCase="'main_30'"></main-form>
 
         <path-form [path]="selectedPath()" class="editor-detail-form"
