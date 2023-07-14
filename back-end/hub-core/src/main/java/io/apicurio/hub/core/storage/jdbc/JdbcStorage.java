@@ -33,6 +33,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
+import io.apicurio.hub.core.storage.jdbc.mappers.*;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.argument.CharacterStreamArgument;
@@ -56,6 +57,7 @@ import io.apicurio.hub.core.beans.ApiMock;
 import io.apicurio.hub.core.beans.ApiPublication;
 import io.apicurio.hub.core.beans.ApiTemplatePublication;
 import io.apicurio.hub.core.beans.CodegenProject;
+import io.apicurio.hub.core.beans.Comment;
 import io.apicurio.hub.core.beans.Contributor;
 import io.apicurio.hub.core.beans.Invitation;
 import io.apicurio.hub.core.beans.LinkedAccount;
@@ -70,21 +72,6 @@ import io.apicurio.hub.core.exceptions.AlreadyExistsException;
 import io.apicurio.hub.core.exceptions.NotFoundException;
 import io.apicurio.hub.core.storage.IStorage;
 import io.apicurio.hub.core.storage.StorageException;
-import io.apicurio.hub.core.storage.jdbc.mappers.ApiDesignChangeRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.ApiDesignCollaboratorRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.ApiDesignCommandRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.ApiDesignContentRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.ApiDesignRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.ApiMockRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.ApiPublicationRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.ApiTemplatePublicationRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.CodegenProjectRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.ContributorRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.InvitationRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.SharingConfigurationRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.SharingInfoRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.StoredApiTemplateRowMapper;
-import io.apicurio.hub.core.storage.jdbc.mappers.ValidationProfileRowMapper;
 
 /**
  * A JDBC/SQL implementation of the storage layer.
@@ -95,7 +82,7 @@ import io.apicurio.hub.core.storage.jdbc.mappers.ValidationProfileRowMapper;
 public class JdbcStorage implements IStorage {
     
     private static Logger logger = LoggerFactory.getLogger(JdbcStorage.class);
-    private static int DB_VERSION = 12;
+    private static int DB_VERSION = 13;
     private static final Object dbMutex = new Object();
 
     @Inject
@@ -1770,6 +1757,122 @@ public class JdbcStorage implements IStorage {
             throw nfe;
         } catch (Exception e) {
             throw new StorageException("Error deleting template.", e);
+        }
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#listComments(java.lang.String)
+     */
+    @Override
+    public Collection<Comment> listComments(String userId) throws StorageException {
+        logger.debug("Getting a list of all comments for {}.", userId);
+        try {
+            return this.jdbi.withHandle( handle -> {
+                String statement = sqlStatements.selectComments();
+                return handle.createQuery(statement)
+                        .bind(0, userId)
+                        .map(CommentRowMapper.instance)
+                        .list();
+            });
+        } catch (Exception e) {
+            throw new StorageException("Error listing comments.", e);
+        }
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#listCommentsByApiId(java.lang.String, long)
+     */
+    @Override
+    public Collection<Comment> listCommentsByApiId(String userId, long apiId) throws StorageException {
+        logger.debug("Getting a list of all comments for {}.", userId);
+        try {
+            return this.jdbi.withHandle( handle -> {
+                String statement = sqlStatements.selectCommentsByApiId();
+                return handle.createQuery(statement)
+                        .bind(0, userId)
+                        .bind(1, apiId)
+                        .map(CommentRowMapper.instance)
+                        .list();
+            });
+        } catch (Exception e) {
+            throw new StorageException("Error listing comments.", e);
+        }
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#createComment(java.lang.String, io.apicurio.hub.core.beans.Comment)
+     */
+    @Override
+    public long createComment(String userId, Comment comment) throws StorageException {
+        logger.debug("Inserting a comment for: {}  and Api: ", userId, comment.getApiId());
+        try {
+            return this.jdbi.withHandle( handle -> {
+                String statement = sqlStatements.insertComment();
+                Long profileId = handle.createUpdate(statement)
+                        .bind(0, userId)
+                        .bind(1, comment.getText())
+                        .bind(2, comment.getRow())
+                        .bind(3, comment.getApiId())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Long.class)
+                        .one();
+                return profileId;
+            });
+        } catch (Exception e) {
+            throw new StorageException("Error inserting comment.", e);
+        }
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#updateComment(java.lang.String, io.apicurio.hub.core.beans.Comment)
+     */
+    @Override
+    public void updateComment(String userId, Comment comment) throws StorageException, NotFoundException {
+        logger.debug("Updating a comment: {}", comment.getId());
+        try {
+            this.jdbi.withHandle( handle -> {
+                String statement = sqlStatements.updateComment();
+                int rowCount = handle.createUpdate(statement)
+                        .bind(0, comment.getText())
+                        .bind(1, comment.getRow())
+                        .bind(2, comment.getApiId())
+                        .bind(3, comment.getId())
+                        .bind(4, userId)
+                        .execute();
+                if (rowCount == 0) {
+                    throw new NotFoundException();
+                }
+                return null;
+            });
+        } catch (NotFoundException nfe) {
+            throw nfe;
+        } catch (Exception e) {
+            throw new StorageException("Error updating a comment.", e);
+        }
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#deleteComment(java.lang.String, long)
+     */
+    @Override
+    public void deleteComment(String userId, long commentId) throws StorageException, NotFoundException {
+        logger.debug("Deleting a comment for: {} with commentId: {}", userId, commentId);
+        try {
+            this.jdbi.withHandle( handle -> {
+                String statement = sqlStatements.deleteComment();
+                int rowCount = handle.createUpdate(statement)
+                        .bind(0, commentId)
+                        .bind(1, userId)
+                        .execute();
+                if (rowCount == 0) {
+                    throw new NotFoundException();
+                }
+                return null;
+            });
+        } catch (NotFoundException nfe) {
+            throw nfe;
+        } catch (Exception e) {
+            throw new StorageException("Error deleting comment.", e);
         }
     }
 }

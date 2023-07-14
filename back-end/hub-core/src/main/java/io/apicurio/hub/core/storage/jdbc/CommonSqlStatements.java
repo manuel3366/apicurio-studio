@@ -681,4 +681,45 @@ public abstract class CommonSqlStatements implements ISqlStatements {
     public String deleteApiTemplate() {
         return "DELETE FROM templates WHERE template_id = ?";
     }
+
+    /**
+     * @see io.apicurio.hub.core.storage.jdbc.ISqlStatements#selectComments()
+     */
+    @Override
+    public String selectComments() {
+        return "SELECT * FROM comments WHERE owner = ?";
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.jdbc.ISqlStatements#selectCommentsByApiId()
+     */
+    @Override
+    public String selectCommentsByApiId() {
+        return "SELECT * FROM comments WHERE owner = ? and api_id = ?";
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.jdbc.ISqlStatements#insertComment()
+     */
+    @Override
+    public String insertComment() {
+        return "INSERT INTO comments (owner, text_value, row_num, api_id) VALUES (?, ?, ?, ?)";
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.jdbc.ISqlStatements#updateComment()
+     */
+    @Override
+    public String updateComment() {
+        return "UPDATE comments SET text_value = ?, row_num = ?, api_id = ? WHERE id = ? AND owner = ?";
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.jdbc.ISqlStatements#deleteValidationProfile()
+     */
+    @Override
+    public String deleteComment() {
+        return "DELETE FROM comments WHERE id = ? AND owner = ?";
+    }
+
 }

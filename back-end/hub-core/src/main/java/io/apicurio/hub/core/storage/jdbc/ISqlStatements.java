@@ -383,4 +383,29 @@ public interface ISqlStatements {
      * A statement to delete a single row on the template table
      */
     public String deleteApiTemplate();
+
+    /**
+     * A statement used to select all comments for a user.
+     */
+    public String selectComments();
+
+    /**
+     * A statement used to select all comments the API for a user.
+     */
+    public String selectCommentsByApiId();
+
+    /**
+     * A statement used to insert a row on the comments table.
+     */
+    public String insertComment();
+
+    /**
+     * A statement used to update a row in the comments table.
+     */
+    public String updateComment();
+
+    /**
+     * A statement used to delete a single row in comments table.
+     */
+    public String deleteComment();
 }

@@ -20,26 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import io.apicurio.hub.core.beans.ApiContentType;
-import io.apicurio.hub.core.beans.ApiDesign;
-import io.apicurio.hub.core.beans.ApiDesignChange;
-import io.apicurio.hub.core.beans.ApiDesignCollaborator;
-import io.apicurio.hub.core.beans.ApiDesignCommand;
-import io.apicurio.hub.core.beans.ApiDesignContent;
-import io.apicurio.hub.core.beans.ApiDesignType;
-import io.apicurio.hub.core.beans.ApiMock;
-import io.apicurio.hub.core.beans.ApiPublication;
-import io.apicurio.hub.core.beans.ApiTemplatePublication;
-import io.apicurio.hub.core.beans.CodegenProject;
-import io.apicurio.hub.core.beans.Contributor;
-import io.apicurio.hub.core.beans.Invitation;
-import io.apicurio.hub.core.beans.LinkedAccount;
-import io.apicurio.hub.core.beans.LinkedAccountType;
-import io.apicurio.hub.core.beans.SharingConfiguration;
-import io.apicurio.hub.core.beans.SharingInfo;
-import io.apicurio.hub.core.beans.SharingLevel;
-import io.apicurio.hub.core.beans.StoredApiTemplate;
-import io.apicurio.hub.core.beans.ValidationProfile;
+import io.apicurio.hub.core.beans.*;
 import io.apicurio.hub.core.exceptions.AlreadyExistsException;
 import io.apicurio.hub.core.exceptions.NotFoundException;
 
@@ -580,5 +561,44 @@ public interface IStorage {
      * @throws StorageException
      */
     public void deleteApiTemplate(String templateId) throws StorageException, NotFoundException;
+
+    /**
+     * Returns a collection of comments for the given user.
+     * @param userId
+     * @throws StorageException
+     */
+    Collection<Comment> listComments(String userId) throws StorageException;
+
+    /**
+     * Returns a collection of comments of a specific api for the given user.
+     * @param userId
+     * @throws StorageException
+     */
+    Collection<Comment> listCommentsByApiId(String userId, long apiId) throws StorageException;
+
+    /**
+     * Creates a single new comment for the given user.
+     * @param userId
+     * @param comment
+     * @throws StorageException
+     */
+    long createComment(String userId, Comment comment) throws StorageException;
+
+    /**
+     * Updates a single Comment for the given user.
+     * @param userId
+     * @param comment
+     * @throws StorageException
+     */
+    void updateComment(String userId, Comment comment) throws StorageException, NotFoundException;
+
+    /**
+     * Deletes a single comment.
+     * @param userId
+     * @param commentId
+     * @throws StorageException
+     */
+    void deleteComment(String userId, long commentId) throws StorageException, NotFoundException;
+
 
 }
