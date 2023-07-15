@@ -86,13 +86,13 @@ export class CommentService extends AbstractHubService {
 
         console.info("[Comment] Creating a comment: %s", createUrl);
         return this.httpPostWithReturn<Comment, Comment>(createUrl, comment, options).then( p => {
-            let newProfile: Comment = {
+            let newComment: Comment = {
                 id: p.id,
                 text: p.text,
                 row: p.row,
                 apiId: p.apiId
             };
-            return newProfile;
+            return newComment;
         });
     }
 

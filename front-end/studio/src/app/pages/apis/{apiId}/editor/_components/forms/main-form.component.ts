@@ -31,7 +31,7 @@ import {EditorsService} from "../../_services/editors.service";
     selector: "main-form",
     templateUrl: "main-form.component.html",
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainFormComponent extends SourceFormComponent<OasDocument> {
 
@@ -156,20 +156,20 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
     /**
      * Called when the user clicks Save on the Create/Edit Validation Profile editor.
      */
-    saveComment(): void {
-        let comment: Comment = this.editorModel;
+    saveComment(comment?: Comment): void {
+        if (comment === null) {
+           comment = this.editorModel;
+        }
 
         // Create a new profile
-
+        console.log("Before Closing editor: " + this.editorOpen);
         if (comment.id === null) {
             this.commentService.createValidationProfile(comment).then( comment => {
-
+                this.editorOpen = false;
                 this._comments.push(comment);
                 this._visibleComment.push(false);
                 this.calculateCommentResume();
-                console.log("Closing editor");
-                this.editorOpen = false;
-
+                console.log("Closing editor: " + this.editorOpen);
             }).catch( error => {
                 console.error("    Error: %o", error);
             });
@@ -178,19 +178,24 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
         // Update an existing profile
         if (comment.id !== null) {
 
-            this.commentService.updateComment(this.editorModel.id, comment).then( newComment => {
+            this.commentService.updateComment(comment.id, comment).then( newComment => {
+                this.editorOpen = false;
                 let idx: number = -1;
                 this._comments.forEach( (p, pidx) => {
                     if (p.id === newComment.id) {
                         idx = pidx;
                     }
                 });
+                console.log("idx:" + idx);
+                console.log("this._visibleComment:" + this._visibleComment);
+                console.log("this._comments:" + this._comments);
                 if (idx >= 0) {
                     this._comments.splice(idx, 1, newComment);
                     this._visibleComment.splice(idx, 1, false);
+                    console.log("this._visibleComment after:" + this._visibleComment);
+                    console.log("this._comments after:" + this._comments);
                 }
-
-                this.editorOpen = false;
+                this.collapseAllExcept(null);
             }).catch( error => {
                 console.error("    Error: %o", error);
                 //this.error(error);
@@ -202,12 +207,14 @@ export class MainFormComponent extends SourceFormComponent<OasDocument> {
 
     calculateCommentResume(){
         this._commentsResume = new Map();
+        this._visibleComment = [];
         for (let i = 0; i < this._comments.length; i++) {
             let count = 1;
             if (this._commentsResume.has(this._comments[i].row)) {
                 count = this._commentsResume.get(this._comments[i].row) + count;
             }
             this._commentsResume.set(this._comments[i].row, count);
+            this._visibleComment.push(false);
         }
         //this.pageNumber = Math.ceil(this._comments.length/this.itemsPerPage);
     }

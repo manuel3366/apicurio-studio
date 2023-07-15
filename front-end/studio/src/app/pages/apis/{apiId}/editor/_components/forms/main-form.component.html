@@ -32,7 +32,7 @@
 
     </div>
     <div style="float: left;width: 30%;" *ngIf="isShowComments()">
-        <comment-editor *ngIf="editorOpen" (onSave)="saveComment()" (onClose)="editorOpen=false" [comment]="editorModel"></comment-editor>
+        <comment-editor *ngIf="editorOpen" (onSave)="saveComment(editorModel)" (onClose)="editorOpen=false" [comment]="editorModel"></comment-editor>
         <div id="comments-bar">
             <h3 class="comment-section-title">Open Comments</h3>
         </div>
@@ -44,7 +44,7 @@
             <img (click)="goToLineInEditor(comment.row)" src="/assets/jump-icon.svg" class="view-line-link" aria-describedby="false" title="Go to line {{comment.row}}">
             <a (click)="toggleCollapse(i)">Comment on line {{comment.row}}</a>
             <div *ngIf="_visibleComment[i]">
-                <comment-editor (onSave)="saveComment()" (onClose)="toggleCollapse(i)" [closable]="false" [comment]="comment"></comment-editor>
+                <comment-editor (onSave)="saveComment(comment)" (onClose)="toggleCollapse(i)" [closable]="false" [comment]="comment"></comment-editor>
             </div>
         </div>
         <pagination-controls
