@@ -1770,7 +1770,6 @@ public class JdbcStorage implements IStorage {
             return this.jdbi.withHandle( handle -> {
                 String statement = sqlStatements.selectComments();
                 return handle.createQuery(statement)
-                        .bind(0, userId)
                         .map(CommentRowMapper.instance)
                         .list();
             });
@@ -1789,8 +1788,7 @@ public class JdbcStorage implements IStorage {
             return this.jdbi.withHandle( handle -> {
                 String statement = sqlStatements.selectCommentsByApiId();
                 return handle.createQuery(statement)
-                        .bind(0, userId)
-                        .bind(1, apiId)
+                        .bind(0, apiId)
                         .map(CommentRowMapper.instance)
                         .list();
             });

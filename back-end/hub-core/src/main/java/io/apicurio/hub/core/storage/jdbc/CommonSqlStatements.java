@@ -687,7 +687,7 @@ public abstract class CommonSqlStatements implements ISqlStatements {
      */
     @Override
     public String selectComments() {
-        return "SELECT * FROM comments WHERE owner = ?";
+        return "SELECT * FROM comments";
     }
 
     /**
@@ -695,7 +695,7 @@ public abstract class CommonSqlStatements implements ISqlStatements {
      */
     @Override
     public String selectCommentsByApiId() {
-        return "SELECT * FROM comments WHERE owner = ? and api_id = ?";
+        return "SELECT * FROM comments WHERE api_id = ?";
     }
 
     /**

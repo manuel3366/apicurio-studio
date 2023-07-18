@@ -18,7 +18,7 @@
     <button class="btn btn-primary btn-xs" (click)="showComments()"><span class="pficon fa-comments"></span> <span>Comments</span></button>
 </div>
 <div style='content: ""; display: table; clear: both; height: 100%' *ngIf="isSourceMode()">
-    <div class="detail-content" style="position: relative; float: left; width: 70%; height: 100%;">
+    <div class="detail-content detail-content-specific" style="position: relative; float: left; width: 70%;">
 
         <code-editor #sourceEditor
                      [(text)]="source"
