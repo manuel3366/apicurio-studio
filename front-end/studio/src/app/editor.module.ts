@@ -16,6 +16,7 @@
  */
 
 import {NgModule} from "@angular/core";
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import {ValidationIconComponent} from "./pages/apis/{apiId}/editor/_components/title-bar/validation-icon.component";
 import {ServerUrlComponent} from "./pages/apis/{apiId}/editor/_components/common/server-url.component";
@@ -171,7 +172,7 @@ import {AddExtensionDialogComponent} from "./pages/apis/{apiId}/editor/_componen
 
 @NgModule({
     imports: [
-        CommonModule, FormsModule, ModalModule, BsDropdownModule, ApicurioCommonComponentsModule
+        CommonModule, NgxPaginationModule, FormsModule, ModalModule, BsDropdownModule, ApicurioCommonComponentsModule
     ],
     declarations: [
         ValidationIconComponent, ServerUrlComponent, SearchComponent, SchemaTypeComponent, ResponseItemComponent,
@@ -209,7 +210,7 @@ import {AddExtensionDialogComponent} from "./pages/apis/{apiId}/editor/_componen
         RestResourceService, FeaturesService, CollaboratorService, ApiCatalogService
     ],
     exports: [
-        ApiEditorComponent, AsyncApiEditorComponent, GraphQLEditorComponent
+        ApiEditorComponent, AsyncApiEditorComponent, GraphQLEditorComponent, NgxPaginationModule
     ]
 })
 export class ApicurioEditorModule {

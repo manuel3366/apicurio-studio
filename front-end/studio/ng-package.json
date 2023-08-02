@@ -3,5 +3,8 @@
   "dest": "dist-editor",
   "lib": {
     "entryFile": "src/public_api.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "ngx-pagination"
+  ]
 }

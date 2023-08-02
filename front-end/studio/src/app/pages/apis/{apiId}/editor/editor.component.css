@@ -173,6 +173,14 @@
 .api-editor .editor-detail .detail-content .info-section .api-md-entry .md-label {
   color: #333;
 }
+.detail-content-specific {
+  height: 100%;
+}
+@-moz-document url-prefix(){
+  .detail-content-specific {
+    height: 500px !important;
+  }
+}
 .api-editor .api-operation-parameters td.icons, .api-details table td.icons {
   color: #666;
 }
