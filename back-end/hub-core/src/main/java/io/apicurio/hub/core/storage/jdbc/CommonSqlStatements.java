@@ -722,4 +722,38 @@ public abstract class CommonSqlStatements implements ISqlStatements {
         return "DELETE FROM comments WHERE id = ? AND owner = ?";
     }
 
+
+    /**
+     * @see io.apicurio.hub.core.storage.jdbc.ISqlStatements#selectCategories()
+     */
+    @Override
+    public String selectCategories() {
+        return "SELECT * FROM categories WHERE owner = ?";
+    }
+
+
+    /**
+     * @see io.apicurio.hub.core.storage.jdbc.ISqlStatements#insertCategories()
+     */
+    @Override
+    public String insertCategories() {
+        return "INSERT INTO categories (owner, name, description) VALUES (?, ?, ?)";
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.jdbc.ISqlStatements#updateCategories()
+     */
+    @Override
+    public String updateCategories() {
+        return "UPDATE categories SET SET name = ?, description = ? WHERE id = ? AND owner = ?";
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.jdbc.ISqlStatements#deleteCategories()
+     */
+    @Override
+    public String deleteCategories() {
+        return "DELETE FROM categories WHERE id = ? AND owner = ?";
+    }
+
 }

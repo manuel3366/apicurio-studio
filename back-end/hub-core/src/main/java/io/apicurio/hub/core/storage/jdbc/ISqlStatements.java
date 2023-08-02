@@ -408,4 +408,25 @@ public interface ISqlStatements {
      * A statement used to delete a single row in comments table.
      */
     public String deleteComment();
+
+
+    /**
+     * A statement used to select all categories for a user.
+     */
+    public String selectCategories();
+
+    /**
+     * A statement used to insert a row on the categories table.
+     */
+    public String insertCategories();
+
+    /**
+     * A statement used to update a row in the categories table.
+     */
+    public String updateCategories();
+
+    /**
+     * A statement used to delete a single row in categories table.
+     */
+    public String deleteCategories();
 }

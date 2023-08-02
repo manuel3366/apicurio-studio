@@ -70,6 +70,7 @@ import {DefaultPageComponent} from "./pages/default.page";
 import {InvitationDialogComponent} from "./pages/apis/{apiId}/collaboration/_components/invitation.component";
 import {ConfigureValidationComponent} from './pages/apis/{apiId}/_components/configure-validation.dialog';
 import {ValidationService} from "./services/validation.service";
+import {CategoryService} from "./services/categories.service";
 import {ValidationPageComponent} from "./pages/settings/validation/validation.page";
 import {CategoriesPageComponent} from "./pages/settings/categories/categories.page";
 import {ProfileEditorComponent} from "./pages/settings/validation/_components/profile-editor.component";
@@ -104,7 +105,7 @@ import {TemplateEditorComponent} from "./pages/templates/_components/template-ed
         DataTableComponent, LoadingComponent, TemplatePublicationPageComponent, TemplatesPageComponent, TemplateEditorComponent
     ],
     providers: [
-        ApisService, AuthenticationServiceProvider, ConfigService, LinkedAccountsService, ValidationService,
+        ApisService, AuthenticationServiceProvider, ConfigService, LinkedAccountsService, ValidationService, CategoryService,
         AuthenticationCanActivateGuard, ApiEditorPageGuard, CurrentUserService, TemplateService
     ],
     bootstrap: [AppComponent]

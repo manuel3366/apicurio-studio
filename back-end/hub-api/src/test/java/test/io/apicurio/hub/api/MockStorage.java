@@ -26,27 +26,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
-import io.apicurio.hub.core.beans.ApiContentType;
-import io.apicurio.hub.core.beans.ApiDesign;
-import io.apicurio.hub.core.beans.ApiDesignChange;
-import io.apicurio.hub.core.beans.ApiDesignCollaborator;
-import io.apicurio.hub.core.beans.ApiDesignCommand;
-import io.apicurio.hub.core.beans.ApiDesignContent;
-import io.apicurio.hub.core.beans.ApiDesignType;
-import io.apicurio.hub.core.beans.ApiMock;
-import io.apicurio.hub.core.beans.ApiPublication;
-import io.apicurio.hub.core.beans.ApiTemplatePublication;
-import io.apicurio.hub.core.beans.CodegenProject;
-import io.apicurio.hub.core.beans.Contributor;
-import io.apicurio.hub.core.beans.Comment;
-import io.apicurio.hub.core.beans.Invitation;
-import io.apicurio.hub.core.beans.LinkedAccount;
-import io.apicurio.hub.core.beans.LinkedAccountType;
-import io.apicurio.hub.core.beans.SharingConfiguration;
-import io.apicurio.hub.core.beans.SharingInfo;
-import io.apicurio.hub.core.beans.SharingLevel;
-import io.apicurio.hub.core.beans.StoredApiTemplate;
-import io.apicurio.hub.core.beans.ValidationProfile;
+import io.apicurio.hub.core.beans.*;
 import io.apicurio.hub.core.exceptions.AlreadyExistsException;
 import io.apicurio.hub.core.exceptions.NotFoundException;
 import io.apicurio.hub.core.storage.IStorage;
@@ -893,5 +873,35 @@ public class MockStorage implements IStorage {
      */
     @Override
     public void deleteComment(String userId, long commentId) throws StorageException {
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#listCategories(java.lang.String)
+     */
+    @Override
+    public Collection<Categories> listCategories(String userId) throws StorageException {
+        return null;
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#createCategories(java.lang.String, io.apicurio.hub.core.beans.Categories)
+     */
+    @Override
+    public long createCategories(String userId, Categories categories) throws StorageException {
+        return 0;
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#updateCategories(java.lang.String, io.apicurio.hub.core.beans.Categories)
+     */
+    @Override
+    public void updateCategories(String userId, Categories categories) throws StorageException {
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#deleteCategories(java.lang.String, long)
+     */
+    @Override
+    public void deleteCategories(String userId, long categoriesId) throws StorageException {
     }
 }

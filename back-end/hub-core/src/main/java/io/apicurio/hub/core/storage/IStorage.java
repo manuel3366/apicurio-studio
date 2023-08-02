@@ -601,4 +601,36 @@ public interface IStorage {
     void deleteComment(String userId, long commentId) throws StorageException, NotFoundException;
 
 
+    /**
+     * Returns a collection of categories for the given user.
+     * @param userId
+     * @throws StorageException
+     */
+    Collection<Categories> listCategories(String userId) throws StorageException;
+
+    /**
+     * Creates a single new Categories for the given user.
+     * @param userId
+     * @param categories
+     * @throws StorageException
+     */
+    long createCategories(String userId, Categories categories) throws StorageException;
+
+    /**
+     * Updates a single Categories for the given user.
+     * @param userId
+     * @param categories
+     * @throws StorageException
+     */
+    void updateCategories(String userId, Categories categories) throws StorageException, NotFoundException;
+
+    /**
+     * Deletes a single categories.
+     * @param userId
+     * @param categoriesId
+     * @throws StorageException
+     */
+    void deleteCategories(String userId, long categoriesId) throws StorageException, NotFoundException;
+
+
 }

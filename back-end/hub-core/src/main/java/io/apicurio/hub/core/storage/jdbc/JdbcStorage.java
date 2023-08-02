@@ -33,6 +33,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
+import io.apicurio.hub.core.beans.*;
 import io.apicurio.hub.core.storage.jdbc.mappers.*;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
@@ -46,27 +47,6 @@ import org.jdbi.v3.core.statement.StatementContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.apicurio.hub.core.beans.ApiContentType;
-import io.apicurio.hub.core.beans.ApiDesign;
-import io.apicurio.hub.core.beans.ApiDesignChange;
-import io.apicurio.hub.core.beans.ApiDesignCollaborator;
-import io.apicurio.hub.core.beans.ApiDesignCommand;
-import io.apicurio.hub.core.beans.ApiDesignContent;
-import io.apicurio.hub.core.beans.ApiDesignType;
-import io.apicurio.hub.core.beans.ApiMock;
-import io.apicurio.hub.core.beans.ApiPublication;
-import io.apicurio.hub.core.beans.ApiTemplatePublication;
-import io.apicurio.hub.core.beans.CodegenProject;
-import io.apicurio.hub.core.beans.Comment;
-import io.apicurio.hub.core.beans.Contributor;
-import io.apicurio.hub.core.beans.Invitation;
-import io.apicurio.hub.core.beans.LinkedAccount;
-import io.apicurio.hub.core.beans.LinkedAccountType;
-import io.apicurio.hub.core.beans.SharingConfiguration;
-import io.apicurio.hub.core.beans.SharingInfo;
-import io.apicurio.hub.core.beans.SharingLevel;
-import io.apicurio.hub.core.beans.StoredApiTemplate;
-import io.apicurio.hub.core.beans.ValidationProfile;
 import io.apicurio.hub.core.config.HubConfiguration;
 import io.apicurio.hub.core.exceptions.AlreadyExistsException;
 import io.apicurio.hub.core.exceptions.NotFoundException;
@@ -82,7 +62,7 @@ import io.apicurio.hub.core.storage.StorageException;
 public class JdbcStorage implements IStorage {
     
     private static Logger logger = LoggerFactory.getLogger(JdbcStorage.class);
-    private static int DB_VERSION = 13;
+    private static int DB_VERSION = 14;
     private static final Object dbMutex = new Object();
 
     @Inject
@@ -1873,6 +1853,104 @@ public class JdbcStorage implements IStorage {
             throw nfe;
         } catch (Exception e) {
             throw new StorageException("Error deleting comment.", e);
+        }
+    }
+
+
+
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#listCategories(java.lang.String)
+     */
+    @Override
+    public Collection<Categories> listCategories(String userId) throws StorageException {
+        logger.debug("Getting a list of all Categories for {}.", userId);
+        try {
+            return this.jdbi.withHandle( handle -> {
+                String statement = sqlStatements.selectCategories();
+                return handle.createQuery(statement)
+                        .bind(0, userId)
+                        .map(CategoriesRowMapper.instance)
+                        .list();
+            });
+        } catch (Exception e) {
+            throw new StorageException("Error listing comments.", e);
+        }
+    }
+
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#createCategories(java.lang.String, io.apicurio.hub.core.beans.Comment)
+     */
+    @Override
+    public long createCategories(String userId, Categories categories) throws StorageException {
+        logger.debug("Inserting a comment for: {}  and Api: ", userId, categories.getName());
+        try {
+            return this.jdbi.withHandle( handle -> {
+                String statement = sqlStatements.insertCategories();
+                Long profileId = handle.createUpdate(statement)
+                        .bind(0, userId)
+                        .bind(1, categories.getName())
+                        .bind(2, categories.getDescription())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Long.class)
+                        .one();
+                return profileId;
+            });
+        } catch (Exception e) {
+            throw new StorageException("Error inserting comment.", e);
+        }
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#updateCategories(java.lang.String, io.apicurio.hub.core.beans.Comment)
+     */
+    @Override
+    public void updateCategories(String userId, Categories categories) throws StorageException, NotFoundException {
+        logger.debug("Updating a comment: {}", categories.getId());
+        try {
+            this.jdbi.withHandle( handle -> {
+                String statement = sqlStatements.updateCategories();
+                int rowCount = handle.createUpdate(statement)
+                        .bind(0, categories.getId())
+                        .bind(1, categories.getName())
+                        .bind(2, categories.getDescription())
+                        .bind(3, userId)
+                        .execute();
+                if (rowCount == 0) {
+                    throw new NotFoundException();
+                }
+                return null;
+            });
+        } catch (NotFoundException nfe) {
+            throw nfe;
+        } catch (Exception e) {
+            throw new StorageException("Error updating a categories.", e);
+        }
+    }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#deleteCategories(java.lang.String, long)
+     */
+    @Override
+    public void deleteCategories(String userId, long categoriesId) throws StorageException, NotFoundException {
+        logger.debug("Deleting a categories for: {} with categoriesId: {}", userId, categoriesId);
+        try {
+            this.jdbi.withHandle( handle -> {
+                String statement = sqlStatements.deleteCategories();
+                int rowCount = handle.createUpdate(statement)
+                        .bind(0, categoriesId)
+                        .bind(1, userId)
+                        .execute();
+                if (rowCount == 0) {
+                    throw new NotFoundException();
+                }
+                return null;
+            });
+        } catch (NotFoundException nfe) {
+            throw nfe;
+        } catch (Exception e) {
+            throw new StorageException("Error deleting Categories.", e);
         }
     }
 }
