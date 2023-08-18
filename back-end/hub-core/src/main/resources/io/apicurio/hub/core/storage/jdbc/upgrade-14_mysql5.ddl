@@ -7,3 +7,5 @@ UPDATE apicurio SET prop_value = 14 WHERE prop_name = 'db_version';
 
 CREATE TABLE categories (id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, owner VARCHAR(255) NOT NULL, name VARCHAR(40) NOT NULL, description VARCHAR(50) NOT NULL);
 CREATE INDEX IDX_categories_1 ON categories(owner);
+
+ALTER TABLE api_designs ADD COLUMN category BIGINT;

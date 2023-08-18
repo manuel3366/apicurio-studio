@@ -50,6 +50,7 @@ public class ApiDesignRowMapper implements RowMapper<ApiDesign> {
         String tags = rs.getString("tags");
         design.getTags().addAll(toSet(tags));
         design.setType(ApiDesignType.valueOf(rs.getString("api_type")));
+        design.setCategory(rs.getLong("category"));
         return design;
     }
 

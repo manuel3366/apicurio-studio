@@ -27,8 +27,8 @@ public class StoredApiTemplate extends ApiTemplate {
     public StoredApiTemplate() {
     }
 
-    public StoredApiTemplate(String templateId, ApiDesignType type, String name, String description, String owner, String document) {
-        super(type, name, description, document);
+    public StoredApiTemplate(String templateId, ApiDesignType type, String name, String description, String owner, String document, Long category) {
+        super(type, name, description, document, category);
         this.templateId = templateId;
         this.owner = owner;
     }

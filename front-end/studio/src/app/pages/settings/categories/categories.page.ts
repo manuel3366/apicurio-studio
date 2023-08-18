@@ -97,8 +97,8 @@ export class CategoriesPageComponent extends AbstractPageComponent {
     }
 
     /**
-         * Called when the user clicks Save on the Create/Edit Validation Profile editor.
-         */
+    * Called when the user clicks Save on the Create/Edit Validation Profile editor.
+    */
         saveCategory(): void {
             let category: Category = this.editorModel;
 
@@ -112,25 +112,25 @@ export class CategoriesPageComponent extends AbstractPageComponent {
                 });
             }
             // Update an existing profile
-            /*if (category.id !== null) {
-                this.categoriesService.updateCategory(this.editorModel.id, update).then( newProfile => {
-                    let idx: number = -1;
-                    this.category.forEach( (p, pidx) => {
-                        if (p.id === category.id) {
-                            idx = pidx;
-                        }
-                    });
-                    if (idx >= 0) {
-                        this.category.splice(idx, 1, newProfile);
-                    }
+            if (category.id !== null) {
+            this.categoriesService.updateCategory(category.id, category).then( newCategory => {
+                 let idx: number = -1;
+                  this.categories.forEach( (p, pidx) => {
+                     if (p.id === newCategory.id) {
+                       idx = pidx;
+                     }
+                  });
+                  if (idx >= 0) {
+                     this.categories.splice(idx, 1, category);
+                  }
 
                     this.editorOpen = false;
-                }).catch( error => {
+            }).catch( error => {
                     this.error(error);
-                });
-            }*/
-
-        }
+               });
+            }
+         //this.editorOpen = false;
+    }
 
 
     /**

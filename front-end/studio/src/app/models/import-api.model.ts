@@ -19,10 +19,12 @@ export class ImportApi {
 
     url: string;
     data: string;
+    category: any;
 
     constructor() {
         this.url = null;
         this.data = null;
+        this.category = null;
     }
 
 }

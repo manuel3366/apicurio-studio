@@ -66,6 +66,7 @@ export class TemplateService extends AbstractHubService {
                             type: template.type,
                             name: template.name,
                             description: template.description,
+                            category: template.category,
                             content: template.document
                         };
                     })
@@ -106,6 +107,7 @@ export class TemplateService extends AbstractHubService {
                     name: template.name,
                     description: template.description,
                     owner: template.owner,
+                    category: template.category,
                     content: template.document
                 };
             });
@@ -144,6 +146,7 @@ export class TemplateService extends AbstractHubService {
                 type: rawTemplate.type,
                 name: rawTemplate.name,
                 description: rawTemplate.description,
+                category: rawTemplate.category,
                 owner: rawTemplate.owner,
                 content: rawTemplate.document
             }

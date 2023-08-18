@@ -136,7 +136,7 @@ public abstract class CommonSqlStatements implements ISqlStatements {
      */
     @Override
     public String insertApiDesign() {
-        return "INSERT INTO api_designs (name, description, created_by, created_on, tags, api_type) VALUES (?, ?, ?, ?, ?, ?)";
+        return "INSERT INTO api_designs (name, description, created_by, created_on, tags, api_type, category) VALUES (?, ?, ?, ?, ?, ?, ?)";
     }
 
     /**
@@ -745,7 +745,7 @@ public abstract class CommonSqlStatements implements ISqlStatements {
      */
     @Override
     public String updateCategories() {
-        return "UPDATE categories SET SET name = ?, description = ? WHERE id = ? AND owner = ?";
+        return "UPDATE categories SET name = ?, description = ? WHERE id = ? AND owner = ?";
     }
 
     /**

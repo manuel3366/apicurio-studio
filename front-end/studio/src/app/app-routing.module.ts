@@ -112,6 +112,11 @@ const routes: Routes = [
         canActivate: [AuthenticationCanActivateGuard]
     },
     {
+        path: "apis/:apiId/editCategory",
+        component: ApiEditCategoryPageComponent,
+        canActivate: [AuthenticationCanActivateGuard]
+    },
+    {
         path: "apis/:apiId/publish",
         component: PublishPageComponent,
         canActivate: [AuthenticationCanActivateGuard]

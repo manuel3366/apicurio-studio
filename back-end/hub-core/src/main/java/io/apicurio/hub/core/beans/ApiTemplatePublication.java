@@ -29,6 +29,8 @@ public class ApiTemplatePublication {
     private long contentVersion;
     private String createdBy;
     private Date createdOn;
+
+    private Long category;
     
     /**
      * Constructor.
@@ -36,13 +38,14 @@ public class ApiTemplatePublication {
     public ApiTemplatePublication() {
     }
 
-    public ApiTemplatePublication(String designId, String name, String description, long contentVersion, String createdBy, Date createdOn) {
+    public ApiTemplatePublication(String designId, String name, String description, long contentVersion, String createdBy, Date createdOn, Long category) {
         this.designId = designId;
         this.name = name;
         this.description = description;
         this.contentVersion = contentVersion;
         this.createdBy = createdBy;
         this.createdOn = createdOn;
+        this.category = category;
     }
 
     /**
@@ -127,5 +130,19 @@ public class ApiTemplatePublication {
      */
     public void setCreatedOn(Date createdOn) {
         this.createdOn = createdOn;
+    }
+
+    /**
+     * @return the category
+     */
+    public Long getCategory() {
+        return category;
+    }
+
+    /**
+     * @param category the category to set
+     */
+    public void setCategory(Long category) {
+        this.category = category;
     }
 }

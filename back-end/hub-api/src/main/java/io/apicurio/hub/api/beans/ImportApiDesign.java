@@ -24,6 +24,9 @@ public class ImportApiDesign {
     private String url;
     private String data;
 
+    private Long category;
+
+
     /**
      * @return the url
      */
@@ -51,5 +54,18 @@ public class ImportApiDesign {
     public void setData(String data) {
         this.data = data;
     }
-    
+
+
+    /**
+     * @return the category
+     */
+    public Long getCategory() {
+        return category;
+    }
+    /**
+     * @param category the data to set
+     */
+    public void setCategory(Long category) {
+        this.category = category;
+    }
 }

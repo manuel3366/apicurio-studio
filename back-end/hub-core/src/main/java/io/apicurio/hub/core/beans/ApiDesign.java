@@ -33,6 +33,8 @@ public class ApiDesign {
     private Set<String> tags = new HashSet<>();
     private ApiDesignType type;
 
+    private Long category;
+
     /**
      * Constructor.
      */
@@ -135,6 +137,21 @@ public class ApiDesign {
      */
     public void setType(ApiDesignType type) {
         this.type = type;
+    }
+
+    /**
+     * @return the category
+     */
+    public Long getCategory() {
+        return category;
+    }
+
+    /**
+     * @param category the category to set
+     */
+    public void setCategory(Long category) {
+
+        this.category = category;
     }
     
 }

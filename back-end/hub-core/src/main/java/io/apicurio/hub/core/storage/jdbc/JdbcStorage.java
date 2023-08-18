@@ -749,6 +749,7 @@ public class JdbcStorage implements IStorage {
                       .bind(3, design.getCreatedOn())
                       .bind(4, asCsv(design.getTags(), 2048))
                       .bind(5, design.getType().name())
+                      .bind(6, design.getCategory())
                       .executeAndReturnGeneratedKeys("id")
                       .mapTo(String.class)
                       .one();
@@ -772,7 +773,8 @@ public class JdbcStorage implements IStorage {
                       .bind(2, contentClob)
                       .bind(3, userId)
                       .bind(4, design.getCreatedOn())
-                      .execute();
+
+                        .execute();
                 
                 return designId;
             });
@@ -1910,9 +1912,9 @@ public class JdbcStorage implements IStorage {
             this.jdbi.withHandle( handle -> {
                 String statement = sqlStatements.updateCategories();
                 int rowCount = handle.createUpdate(statement)
-                        .bind(0, categories.getId())
-                        .bind(1, categories.getName())
-                        .bind(2, categories.getDescription())
+                        .bind(0, categories.getName())
+                        .bind(1, categories.getDescription())
+                        .bind(2, categories.getId())
                         .bind(3, userId)
                         .execute();
                 if (rowCount == 0) {

@@ -242,6 +242,7 @@ public class DesignsResource implements IDesignsResource {
     private ApiDesign importDesignFromSource(ImportApiDesign info, ISourceConnector connector) throws NotFoundException, ServerError, ApiValidationException {
         try {
             ApiDesignResourceInfo resourceInfo = connector.validateResourceExists(info.getUrl());
+            resourceInfo.setCategory(info.getCategory());
             ResourceContent initialApiContent = connector.getResourceContent(info.getUrl());
 
             ApiDesign design = doImport(resourceInfo, initialApiContent.getContent());
@@ -272,7 +273,7 @@ public class DesignsResource implements IDesignsResource {
                 if (resourceInfo == null) {
                     throw new ApiValidationException("Failed to determine API Design type from content.");
                 }
-
+                resourceInfo.setCategory(info.getCategory());
                 ApiDesign design = doImport(resourceInfo, content);
 
                 metrics.apiImport(null);
@@ -351,6 +352,7 @@ public class DesignsResource implements IDesignsResource {
         design.setCreatedOn(now);
         design.setTags(info.getTags());
         design.setType(info.getType());
+        design.setCategory(info.getCategory());
 
         try {
             // Convert from YAML to JSON if the source is YAML (always store as JSON).  Only for non-GraphQL designs.
@@ -399,6 +401,7 @@ public class DesignsResource implements IDesignsResource {
                 }
             }
             design.setType(type);
+            design.setCategory(info.getCategory());
 
             String content = createNewDocument(type, info.getName(), info.getDescription());
 
@@ -1012,6 +1015,7 @@ public class DesignsResource implements IDesignsResource {
             storedApiTemplate.setType(apiDesign.getType());
             storedApiTemplate.setOwner(userLogin);
             storedApiTemplate.setDocument(documentAsString);
+            storedApiTemplate.setCategory(apiDesign.getCategory());
             this.storage.createApiTemplate(storedApiTemplate);
             // Store the publication metadata
             final String templateData = createTemplateData(designId, newApiTemplate, version);

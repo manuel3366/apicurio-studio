@@ -26,17 +26,20 @@ public class ApiTemplate {
     private String description;
     private String document;
 
+    private Long category;
+
     /**
      * Constructor.
      */
     public ApiTemplate() {
     }
 
-    public ApiTemplate(ApiDesignType type, String name, String description, String document) {
+    public ApiTemplate(ApiDesignType type, String name, String description, String document, Long category) {
         this.type = type;
         this.name = name;
         this.description = description;
         this.document = document;
+        this.category = category;
     }
 
     /**
@@ -93,6 +96,20 @@ public class ApiTemplate {
      */
     public void setDocument(String document) {
         this.document = document;
+    }
+
+    /**
+     * @return the category
+     */
+    public Long getCategory() {
+        return category;
+    }
+
+    /**
+     * @param document the document to set
+     */
+    public void setCategory(Long category) {
+        this.category = category;
     }
 
 

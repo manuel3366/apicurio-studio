@@ -23,10 +23,13 @@ import {LinkedAccountsService} from "../../../../services/accounts.service";
 import {TemplateService} from "../../../../services/template.service";
 import {ApiDesignTemplate} from "../../../../models/api-design-template.model";
 import {ConfigService} from "../../../../services/config.service";
+import {Category} from "../../../../models/categories.model";
+import {CategoryService} from "../../../../services/categories.service";
 
 export interface CreateApiFormData {
     type: string;
     name: string;
+    category: any;
     description: string;
     template?: ApiDesignTemplate
 }
@@ -38,17 +41,21 @@ export interface CreateApiFormData {
 })
 export class CreateApiFormComponent {
 
+    categories: any = [];
+
     @Output() onCreateApi = new EventEmitter<CreateApiFormData>();
 
     model: CreateApiFormData = {
         type: "OpenAPI30",
         name: null,
         description: null,
-        template: null
+        template: null,
+        category: null
     };
     creatingApi: boolean = false;
     error: string;
     toptions: DropDownOption[];
+    categoryOptions: DropDownOption[];
 
     /**
      * Constructor.
@@ -60,7 +67,7 @@ export class CreateApiFormComponent {
     constructor(private apisService: ApisService,
                 @Inject(IAuthenticationService) private authService: IAuthenticationService,
                 private accountsService: LinkedAccountsService, private templateService: TemplateService,
-                private config: ConfigService)
+                private config: ConfigService, private categoriesService: CategoryService)
     {
         this.creatingApi = false;
     }
@@ -76,15 +83,37 @@ export class CreateApiFormComponent {
         if (this.config.isGraphQLEnabled()) {
             this.toptions.push(new Value("GraphQL", "GraphQL"));
         }
+       this.categoriesService.getCategories().then( categories => {
+           console.log("[CategoriesPageComponent] Default categories loaded: ", categories);
+           this.categories = categories;
+           this.categoryOptions = [];
+           for(var i = 0; i < this.categories.length; i++){
+                this.categoryOptions.push(new Value(this.categories[i].name, this.categories[i].id));
+           }
+
+       }).catch( error => {
+           console.error("[CategoriesPageComponent] Error fetching built in validation profiles:" + error);
+       });
+
     }
+
 
     public typeOptions(): DropDownOption[] {
         return this.toptions;
     }
 
+    public categoryOption(): DropDownOption[] {
+       return this.categoryOptions;
+    }
+
     public changeType(value: string): void {
         this.model.type = value;
         this.model.template = null;
+
+    }
+
+    public changeCategory(value: string): void {
+            this.model.category = value;
     }
 
     public templates(): ApiDesignTemplate[] {

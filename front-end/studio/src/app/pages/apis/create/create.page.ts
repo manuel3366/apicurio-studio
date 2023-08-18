@@ -77,6 +77,7 @@ export class CreateApiPageComponent extends AbstractPageComponent {
         if (!eventData.template) {
             let newApi: NewApi = new NewApi();
             newApi.type = eventData.type;
+            newApi.category = eventData.category;
             newApi.name = eventData.name;
             newApi.description = eventData.description;
 
@@ -94,6 +95,7 @@ export class CreateApiPageComponent extends AbstractPageComponent {
             let spec: any = JSON.parse(eventData.template.content);
             this.updateSpec(spec, eventData);
             importApi.data = Base64.encode(JSON.stringify(spec));
+            importApi.category = eventData.category;
 
             this.apis.importApi(importApi).then(updatedApi => {
                 let link: string[] = [ "/apis", updatedApi.id ];

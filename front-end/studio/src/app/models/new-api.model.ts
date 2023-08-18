@@ -21,12 +21,14 @@ export class NewApi {
     name: string;
     description: string;
     type: string;
+    category: any;
 
     constructor() {
         this.specVersion = null;
         this.name = "";
         this.description = "";
         this.type = null;
+        this.category = null;
     }
 
 }

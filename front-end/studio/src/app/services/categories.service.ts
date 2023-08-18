@@ -120,11 +120,11 @@ export class CategoryService extends AbstractHubService {
      * Called to delete a validation profile from the server.
      * @param profileId
      */
-    public deleteCategory(profileId: number): Promise<void> {
-        console.info("[CategoryService] Deleting a validation profile with id %o", profileId);
+    public deleteCategory(categoriesId: number): Promise<void> {
+        console.info("[CategoryService] Deleting a validation profile with id %o", categoriesId);
 
-        let deleteUrl: string = this.endpoint("/categoryProfiles/:profileId", {
-            profileId: profileId
+        let deleteUrl: string = this.endpoint("/categories/:categoriesId", {
+            categoriesId: categoriesId
         });
         let options: any = this.options({ "Accept": "application/json" });
 

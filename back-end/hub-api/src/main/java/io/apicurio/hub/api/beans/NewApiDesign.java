@@ -17,6 +17,7 @@
 package io.apicurio.hub.api.beans;
 
 import io.apicurio.hub.core.beans.ApiDesignType;
+import io.apicurio.hub.core.beans.Categories;
 
 /**
  * @author eric.wittmann@gmail.com
@@ -28,6 +29,8 @@ public class NewApiDesign {
     private String name;
     private String description;
     private ApiDesignType type;
+
+    private Long category;
     
     /**
      * @return the name
@@ -83,6 +86,21 @@ public class NewApiDesign {
      */
     public void setType(ApiDesignType type) {
         this.type = type;
+    }
+
+
+    /**
+     * @return the caregory
+     */
+    public Long getCategory() {
+        return category;
+    }
+
+    /**
+     * @param category the category to set
+     */
+    public void setCategory(Long category) {
+        this.category = category;
     }
     
 }

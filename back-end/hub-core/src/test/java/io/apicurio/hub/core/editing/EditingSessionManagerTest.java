@@ -110,6 +110,7 @@ public class EditingSessionManagerTest {
         design.setCreatedBy("user");
         design.setCreatedOn(new Date());
         design.setType(ApiDesignType.OpenAPI20);
+        design.setCategory(1L);
         String designId = storage.createApiDesign("user", design, "{}");
         String uuid = this.manager.createSessionUuid(designId, "user", "12345-6", 17);
         Assert.assertNotNull(uuid);
@@ -130,6 +131,7 @@ public class EditingSessionManagerTest {
         design.setCreatedBy(user);
         design.setCreatedOn(new Date());
         design.setType(ApiDesignType.OpenAPI20);
+        design.setCategory(1L);
         String designId = storage.createApiDesign(user, design, "{}");
         String uuid = this.manager.createSessionUuid(designId, "user", secret, contentVersion);
         Assert.assertNotNull(uuid);
