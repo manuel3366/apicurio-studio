@@ -749,6 +749,14 @@ public abstract class CommonSqlStatements implements ISqlStatements {
     }
 
     /**
+     * @see io.apicurio.hub.core.storage.jdbc.ISqlStatements#updateCategoryDesign()
+     */
+    @Override
+    public String updateCategoryDesign() {
+        return "UPDATE api_designs SET category = ? WHERE id = ?";
+    }
+
+    /**
      * @see io.apicurio.hub.core.storage.jdbc.ISqlStatements#deleteCategories()
      */
     @Override

@@ -137,6 +137,16 @@ public interface IStorage {
     public ApiDesign getApiDesign(String userId, String designId) throws NotFoundException, StorageException;
 
     /**
+     * updateCategoryDesign a single API Design from the storage layer by its unique ID.
+     * @param userId
+     * @param designId
+     * @return an API Design
+     * @throws NotFoundException
+     * @throws StorageException
+     */
+    public ApiDesign updateCategoryDesign(String userId, String designId, String categoryId) throws NotFoundException, StorageException;
+
+    /**
      * Gets the list of users who have collaborated to edit the given API design.
      * @param userId
      * @param designId
@@ -178,6 +188,7 @@ public interface IStorage {
      * @throws StorageException
      */
     public void updateApiDesign(String userId, ApiDesign design) throws NotFoundException, StorageException;
+
 
     /**
      * Returns a collection of API Designs accessible by the currently authenticated

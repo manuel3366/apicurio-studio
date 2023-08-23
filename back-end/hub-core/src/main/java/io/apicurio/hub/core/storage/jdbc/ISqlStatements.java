@@ -429,4 +429,10 @@ public interface ISqlStatements {
      * A statement used to delete a single row in categories table.
      */
     public String deleteCategories();
+
+
+    /**
+     * A statement used to update a category in the apiDesign table.
+     */
+    public String updateCategoryDesign();
 }

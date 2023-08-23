@@ -49,6 +49,12 @@
                                                         <span>Edit...</span>
                                                     </a>
                                                 </li>
+                                                <li *ngIf="actionEnabled('generate-project')">
+                                                    <a (click)="editCategoryModal.open()">
+                                                        <span class="fa fa-fw fa-file-code-o"></span>
+                                                        <span>Edit Category</span>
+                                                    </a>
+                                                </li>
                                                 <li *ngIf="actionEnabled('preview-docs')">
                                                     <a href="{{ uiUrl }}preview?aid={{ api.id }}" target="_blank">
                                                         <span class="fa fa-fw fa-eye"></span>
@@ -275,3 +281,4 @@
 <sharing-dialog #sharingModal></sharing-dialog>
 <download-dialog #downloadModal></download-dialog>
 <generate-project-wizard #generateProjectModal [apiId]="api.id"></generate-project-wizard>
+<edit-category-wizard #editCategoryModal [apiId]="api.id"></edit-category-wizard>

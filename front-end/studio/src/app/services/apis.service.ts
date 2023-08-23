@@ -556,6 +556,23 @@ export class ApisService extends AbstractHubService {
         });
     }
 
+
+    public updateCategoryDesign(apiId: string, category: string): Promise<void> {
+        console.info("[ApisService] Updating content of the API: ", apiId);
+
+        let ct: string = "application/json";
+
+        let url: string = this.endpoint("/designs/:designId/:categoryId", {
+            designId: apiId, categoryId: category
+        });
+        let options: any = this.options({ "Content-Type": ct });
+
+        console.info("[ApisService] Updating an API Design: %s", url);
+        return this.httpPut(url, null, options, () => {
+            console.info("[ApisService] Successfully updated API %s", apiId);
+        });
+    }
+
     /**
      * @see ApisService.deleteApi
      */

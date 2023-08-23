@@ -60,6 +60,7 @@ import {CurrentUserService} from "./services/current-user.service";
 import {LinkedAccountsService} from "./services/accounts.service";
 import {ApisService} from "./services/apis.service";
 import {GenerateProjectWizardComponent} from "./pages/apis/{apiId}/_components/generate-project.wizard";
+import {editCategoryWizardComponent} from "./pages/apis/{apiId}/_components/edit-category.wizard";
 import {ApicurioEditorModule} from "./editor.module";
 import {ApicurioCommonComponentsModule} from "./common-components.module";
 import {ActivityItemComponent} from "./components/common/activity-item.component";
@@ -100,7 +101,7 @@ import {TemplateEditorComponent} from "./pages/templates/_components/template-ed
         ImportApiFormComponent, CreateApiFormComponent, ApisListComponent, ApisCardsComponent, CopyPageComponent,
         ApiCollaborationPageComponent, ApiAcceptPageComponent, ApiDetailPageComponent, ApiEditorPageComponent,
         PublishPageComponent, GitHubResourceComponent, GitLabResourceComponent, BitbucketResourceComponent,
-        GenerateProjectWizardComponent, ActivityItemComponent, EditorDisconnectedDialogComponent, MockPageComponent,
+        GenerateProjectWizardComponent, editCategoryWizardComponent, ActivityItemComponent, EditorDisconnectedDialogComponent, MockPageComponent,
         DefaultPageComponent, ConfigureValidationComponent, ProfileEditorComponent, ProfileCategoriesEditorComponent,
         TagListComponent,  SharingDialogComponent, ApiTextEditorPageComponent, DownloadDialogComponent, ImportComponentsWizard,
         DataTableComponent, LoadingComponent, TemplatePublicationPageComponent, TemplatesPageComponent, TemplateEditorComponent

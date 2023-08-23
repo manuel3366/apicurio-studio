@@ -610,6 +610,33 @@ public class JdbcStorage implements IStorage {
             throw new StorageException("Error getting API design.", e);
         }
     }
+
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#updateCategoryDesign(java.lang.String, java.lang.String)
+     */
+    @Override
+    public ApiDesign updateCategoryDesign(String userId, String designId, String categoryId) throws NotFoundException, StorageException {
+        logger.debug("Selecting a single API Design: {}", designId);
+        try {
+            this.jdbi.withHandle( handle -> {
+                String statement = sqlStatements.updateCategoryDesign();
+                int rowCount = handle.createUpdate(statement)
+                        .bind(0, Long.valueOf(categoryId))
+                        .bind(1, Long.valueOf(designId))
+                        .execute();
+                if (rowCount == 0) {
+                    throw new NotFoundException();
+                }
+                return null;
+            });
+        } catch (IllegalStateException e) {
+            throw new NotFoundException();
+        } catch (Exception e) {
+            throw new StorageException("Error getting API design.", e);
+        }
+        return null;
+    }
     
     /**
      * @see io.apicurio.hub.core.storage.IStorage#getLatestContentDocument(java.lang.String, java.lang.String)

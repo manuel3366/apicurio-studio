@@ -525,6 +525,24 @@ public class DesignsResource implements IDesignsResource {
     }
 
     /**
+     * @see io.apicurio.hub.api.rest.IDesignsResource#updateDesign(java.lang.String, java.io.InputStream)
+     */
+    @Override
+    public void updateCategoryDesign(String designId, String categoryId)
+            throws ServerError, NotFoundException, ApiValidationException {
+        logger.debug("Updating an API categoryId with ID {}", designId);
+        metrics.apiCall("/designs/{designId}{categoryId}", "PUT");
+
+        try {
+            String user = this.security.getCurrentUser().getLogin();
+            this.storage.updateCategoryDesign(user, designId,categoryId);
+
+        } catch (StorageException e) {
+            throw new ServerError(e);
+        }
+    }
+
+    /**
      * @see io.apicurio.hub.api.rest.IDesignsResource#editDesign(java.lang.String)
      */
     @Override

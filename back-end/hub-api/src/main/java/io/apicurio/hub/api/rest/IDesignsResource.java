@@ -91,6 +91,11 @@ public interface IDesignsResource {
 
     @PUT
     @Consumes({MediaType.APPLICATION_JSON, "application/x-yaml", "application/graphql"})
+    @Path("{designId}/{categoryId}")
+    public void updateCategoryDesign(@PathParam("designId") String designId, @PathParam("categoryId") String categoryId) throws ServerError, NotFoundException, ApiValidationException;
+
+    @PUT
+    @Consumes({MediaType.APPLICATION_JSON, "application/x-yaml", "application/graphql"})
     @Path("{designId}")
     public void updateDesign(@PathParam("designId") String designId, InputStream content) throws ServerError, NotFoundException, ApiValidationException;
 

@@ -82,9 +82,9 @@ const routes: Routes = [
         canActivate: [AuthenticationCanActivateGuard]
     },
     {
-            path: "settings/categories",
-            component: CategoriesPageComponent,
-            canActivate: [AuthenticationCanActivateGuard]
+        path: "settings/categories",
+        component: CategoriesPageComponent,
+        canActivate: [AuthenticationCanActivateGuard]
     },
     {
         path: "apis",
@@ -109,11 +109,6 @@ const routes: Routes = [
     {
         path: "apis/:apiId/collaboration",
         component: ApiCollaborationPageComponent,
-        canActivate: [AuthenticationCanActivateGuard]
-    },
-    {
-        path: "apis/:apiId/editCategory",
-        component: ApiEditCategoryPageComponent,
         canActivate: [AuthenticationCanActivateGuard]
     },
     {

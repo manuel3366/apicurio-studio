@@ -904,4 +904,12 @@ public class MockStorage implements IStorage {
     @Override
     public void deleteCategories(String userId, long categoriesId) throws StorageException {
     }
+
+    /**
+     * @see io.apicurio.hub.core.storage.IStorage#updateCategoryDesign(java.lang.String, io.apicurio.hub.core.beans.Categories)
+     */
+    @Override
+    public ApiDesign updateCategoryDesign(String userId, String designId, String categoryId) throws NotFoundException, StorageException {
+        return null;
+    }
 }
