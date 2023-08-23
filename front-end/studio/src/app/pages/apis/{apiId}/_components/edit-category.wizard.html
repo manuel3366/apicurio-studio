@@ -1,0 +1,40 @@
+<div bsModal #editCategoryModal="bs-modal" class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog"
+     aria-labelledby="editCategoryModalLabel" aria-hidden="true" *ngIf="isOpen()" (onHidden)="close()" [config]="{ backdrop: true }" >
+    <div class="modal-dialog modal-lg wizard-pf" style="width: 900px">
+        <div class="experimental-pf">
+            <div class="experimental-pf-bar">
+                <button class="experimental-pf-more-info">
+                    Experimental <i class="fa fa-flask"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true" (click)="cancel()">
+                        <span class="pficon pficon-close"></span>
+                    </button>
+                    <h4 class="modal-title" id="editCategoryModalLabel">Edit Category Generation Wizard</h4>
+                </div>
+                <div class="modal-body wizard-pf-body clearfix" *ngIf="!error">
+                    <div class="wizard-pf-steps" *ngIf="!loading && !generating && !generated">
+                        <ul class="wizard-pf-steps-indicator wizard-pf-steps-alt-indicator active">
+                            <!-- Caregories-->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label required" for="api-category">Category</label>
+                                <div class="col-sm-10">
+                                    <drop-down id="api-category" [id]="'api-create-api-specVersion'" [value]="modelApi.category" [options]="categoryOption()"
+                                               (onValueChange)="changeCategory($event)"  [noSelectionLabel]="'Choose Category'"></drop-down>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer wizard-pf-footer">
+                    <button type="button" class="btn btn-primary wizard-pf-next" (click)="goNext()">
+                        <span>Save</span>
+                        <span class="i fa fa-angle-right"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
